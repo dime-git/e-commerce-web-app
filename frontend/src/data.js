@@ -37,7 +37,7 @@ const data = {
       description: 'high quality pants',
     },
     {
-      name: 'slim pants',
+      name: 'Slim pants',
       slug: 'slim-pants',
       category: 'Pants',
       image: '/images/slimpants.jpg',
