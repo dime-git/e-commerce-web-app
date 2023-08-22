@@ -1,6 +1,7 @@
 const data = {
   products: [
     {
+      _id: '1',
       name: 'Slim shirt',
       slug: 'slim-shirt',
       category: 'Shirts',
@@ -13,18 +14,20 @@ const data = {
       description: 'high quality shirt',
     },
     {
+      _id: '2',
       name: 'Fit shirt',
       slug: 'fit-shirt',
       category: 'Shirts',
       image: '/images/fitshirt.jpg',
       price: 35,
-      countInStock: 15,
+      countInStock: 0,
       brand: 'Levis',
       rating: 3.8,
       numReviews: 15,
       description: 'high quality shirt',
     },
     {
+      _id: '3',
       name: 'Fit pants',
       slug: 'fit-pants',
       category: 'Pants',
@@ -37,6 +40,7 @@ const data = {
       description: 'high quality pants',
     },
     {
+      _id: '4',
       name: 'Slim pants',
       slug: 'slim-pants',
       category: 'Pants',
