@@ -19,7 +19,6 @@ export default function CartScreen() {
 
   const updateCartHandler = async (item, quantity) => {
     const { data } = await axios.get(`/api/products/${item._id}`);
-
     if (data.countInStock < quantity) {
       window.alert('Sorry. Product is out of stock');
       return;
@@ -29,13 +28,12 @@ export default function CartScreen() {
       payload: { ...item, quantity },
     });
   };
-
   const removeItemHandler = (item) => {
     ctxDispatch({ type: 'CART_REMOVE_ITEM', payload: item });
   };
 
   const checkoutHandler = () => {
-    navigate(`/signin?redirect=/shipping`);
+    navigate('/signin?redirect=/shipping');
   };
 
   return (
@@ -65,10 +63,10 @@ export default function CartScreen() {
                     </Col>
                     <Col md={3}>
                       <Button
-                        variant='light'
                         onClick={() =>
                           updateCartHandler(item, item.quantity - 1)
                         }
+                        variant='light'
                         disabled={item.quantity === 1}
                       >
                         <i className='fas fa-minus-circle'></i>
