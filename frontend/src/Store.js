@@ -3,8 +3,11 @@ import { createContext, useReducer } from 'react';
 export const Store = createContext();
 
 const initialState = {
+  userInfo: localStorage.getItem('userInfo')
+    ? JSON.parse(localStorage.getItem('userInfo'))
+    : null,
+
   cart: {
-    //if cartItems exist in the local storage use JSON.parse to convert 'cartItems' to js object, otherwise set it to empty array
     cartItems: localStorage.getItem('cartItems')
       ? JSON.parse(localStorage.getItem('cartItems'))
       : [],
@@ -25,13 +28,18 @@ function reducer(state, action) {
         : [...state.cart.cartItems, newItem];
       localStorage.setItem('cartItems', JSON.stringify(cartItems));
       return { ...state, cart: { ...state.cart, cartItems } };
-    //if we have already existItem in the card, we need to use map function on the cartItem to update the current item with the new item which we get from the line 14(aciton.payload) otherwise keep the previous item in the cart. If the existItem is null, it means that it's new item that has to be added to the array (line 23)
     case 'CART_REMOVE_ITEM': {
       const cartItems = state.cart.cartItems.filter(
         (item) => item._id !== action.payload._id
       );
       localStorage.setItem('cartItems', JSON.stringify(cartItems));
       return { ...state, cart: { ...state.cart, cartItems } };
+    }
+    case 'USER_SIGNIN': {
+      return { ...state, userInfo: action.payload };
+    }
+    case 'USER_SIGNOUT': {
+      return { ...state, userInfo: null };
     }
     default:
       return state;
