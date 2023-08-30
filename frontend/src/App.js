@@ -1,19 +1,19 @@
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import HomeScreen from './screens/HomeScreen';
+import { BrowserRouter, Link, Route, Routes } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import HomeScreen from './screens/HomeScreen';
 import ProductScreen from './screens/ProductScreen';
 import Navbar from 'react-bootstrap/Navbar';
-import Container from 'react-bootstrap/Container';
-import { LinkContainer } from 'react-router-bootstrap';
-import Badge from 'react-bootstrap/esm/Badge';
+import Badge from 'react-bootstrap/Badge';
 import Nav from 'react-bootstrap/Nav';
 import NavDropdown from 'react-bootstrap/NavDropdown';
-import { Store } from './Store';
+import Container from 'react-bootstrap/Container';
+import { LinkContainer } from 'react-router-bootstrap';
 import { useContext } from 'react';
-import { Link } from 'react-router-dom';
+import { Store } from './Store';
 import CartScreen from './screens/CartScreen';
-import SigninScreen from '../src/screens/SigninScreen.js';
+import SigninScreen from './screens/SigninScreen';
+import ShippingAddressScreen from './screens/ShippingAddressScreen';
 
 function App() {
   const { state, dispatch: ctxDispatch } = useContext(Store);
@@ -22,8 +22,8 @@ function App() {
   const signoutHandler = () => {
     ctxDispatch({ type: 'USER_SIGNOUT' });
     localStorage.removeItem('userInfo');
+    localStorage.removeItem('shippingAddress');
   };
-
   return (
     <BrowserRouter>
       <div className='d-flex flex-column site-container'>
@@ -32,7 +32,7 @@ function App() {
           <Navbar bg='dark' variant='dark'>
             <Container>
               <LinkContainer to='/'>
-                <Navbar.Brand>brendy</Navbar.Brand>
+                <Navbar.Brand>amazona</Navbar.Brand>
               </LinkContainer>
               <Nav className='me-auto'>
                 <Link to='/cart' className='nav-link'>
@@ -75,6 +75,10 @@ function App() {
               <Route path='/product/:slug' element={<ProductScreen />} />
               <Route path='/cart' element={<CartScreen />} />
               <Route path='/signin' element={<SigninScreen />} />
+              <Route
+                path='/shipping'
+                element={<ShippingAddressScreen />}
+              ></Route>
               <Route path='/' element={<HomeScreen />} />
             </Routes>
           </Container>
