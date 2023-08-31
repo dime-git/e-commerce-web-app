@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useContext, useEffect, useReducer } from 'react';
+import { useContext, useEffect, useReducer } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useNavigate, useParams } from 'react-router-dom';
 import Row from 'react-bootstrap/Row';
