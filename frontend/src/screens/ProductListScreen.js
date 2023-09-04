@@ -1,5 +1,4 @@
 import { useContext, useEffect, useReducer } from 'react';
-import axios from 'axios';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -9,6 +8,7 @@ import { Store } from '../Store';
 import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
 import { getError } from '../utils';
+import axios from 'axios';
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -33,17 +33,41 @@ const reducer = (state, action) => {
       };
     case 'CREATE_FAIL':
       return { ...state, loadingCreate: false };
+
+    case 'DELETE_REQUEST':
+      return { ...state, loadingDelete: true, successDelete: false };
+    case 'DELETE_SUCCESS':
+      return {
+        ...state,
+        loadingDelete: false,
+        successDelete: true,
+      };
+    case 'DELETE_FAIL':
+      return { ...state, loadingDelete: false, successDelete: false };
+
+    case 'DELETE_RESET':
+      return { ...state, loadingDelete: false, successDelete: false };
     default:
       return state;
   }
 };
 
 export default function ProductListScreen() {
-  const [{ loading, error, products, pages, loadingCreate }, dispatch] =
-    useReducer(reducer, {
-      loading: true,
-      error: '',
-    });
+  const [
+    {
+      loading,
+      error,
+      products,
+      pages,
+      loadingCreate,
+      loadingDelete,
+      successDelete,
+    },
+    dispatch,
+  ] = useReducer(reducer, {
+    loading: true,
+    error: '',
+  });
 
   const navigate = useNavigate();
   const { search } = useLocation();
@@ -63,8 +87,13 @@ export default function ProductListScreen() {
         dispatch({ type: 'FETCH_SUCCESS', payload: data });
       } catch (err) {}
     };
-    fetchData();
-  }, [page, userInfo]);
+
+    if (successDelete) {
+      dispatch({ type: 'DELETE_RESET' });
+    } else {
+      fetchData();
+    }
+  }, [page, userInfo, successDelete]);
 
   const createHandler = async () => {
     if (window.confirm('Are you sure to create?')) {
@@ -88,6 +117,39 @@ export default function ProductListScreen() {
       }
     }
   };
+
+  const deleteHandler = async (product) => {
+    if (!userInfo || !userInfo.token) {
+      console.log('userInfo.token is undefined or empty'); // Add this line
+      // Handle the case where userInfo.token is missing or empty, e.g., redirect to login
+      return;
+    }
+
+    if (!userInfo.isAdmin) {
+      console.log('User is not an admin'); // Add this line
+      // Handle the case where the user is not an admin, e.g., show an error message
+      return;
+    }
+    if (window.confirm('Are you sure to delete?')) {
+      try {
+        console.log('Authorization Header:', `Bearer ${userInfo.token}`); // Add this line for debugging
+        await axios.delete(`/api/products/${product._id}`, {
+          headers: { Authorization: `Bearer ${userInfo.token}` },
+        });
+        console.log('USERINGO', userInfo.token);
+        console.log(userInfo.isAdmin === true);
+        toast.success('product deleted successfully');
+        dispatch({ type: 'DELETE_SUCCESS' });
+      } catch (err) {
+        console.error('Delete Error:', err); // Add this line for debugging
+        toast.error(getError(err));
+        dispatch({
+          type: 'DELETE_FAIL',
+        });
+      }
+    }
+  };
+
   return (
     <div>
       <Row>
@@ -104,6 +166,7 @@ export default function ProductListScreen() {
       </Row>
 
       {loadingCreate && <LoadingBox></LoadingBox>}
+      {loadingDelete && <LoadingBox></LoadingBox>}
 
       {loading ? (
         <LoadingBox></LoadingBox>
@@ -119,7 +182,7 @@ export default function ProductListScreen() {
                 <th>PRICE</th>
                 <th>CATEGORY</th>
                 <th>BRAND</th>
-                <th>ACTION</th>
+                <th>ACTIONS</th>
               </tr>
             </thead>
             <tbody>
@@ -137,6 +200,14 @@ export default function ProductListScreen() {
                       onClick={() => navigate(`/admin/product/${product._id}`)}
                     >
                       Edit
+                    </Button>
+                    &nbsp;
+                    <Button
+                      type='button'
+                      variant='light'
+                      onClick={() => deleteHandler(product)}
+                    >
+                      Delete
                     </Button>
                   </td>
                 </tr>
