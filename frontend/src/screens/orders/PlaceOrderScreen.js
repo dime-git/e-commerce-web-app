@@ -1,4 +1,5 @@
-import { useContext, useEffect, useReducer } from 'react';
+import Axios from 'axios';
+import React, { useContext, useEffect, useReducer } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Link, useNavigate } from 'react-router-dom';
 import Row from 'react-bootstrap/Row';
@@ -6,12 +7,11 @@ import Col from 'react-bootstrap/Col';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import ListGroup from 'react-bootstrap/ListGroup';
-import { Store } from '../Store';
-import CheckoutSteps from '../components/CheckoutSteps';
 import { toast } from 'react-toastify';
-import { getError } from '../utils';
-import Axios from 'axios';
-import LoadingBox from '../components/LoadingBox';
+import { getError } from '../../utils';
+import { Store } from '../../Store';
+import CheckoutSteps from '../../../src/components/CheckoutSteps';
+import LoadingBox from '../../components/LoadingBox';
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -28,6 +28,7 @@ const reducer = (state, action) => {
 
 export default function PlaceOrderScreen() {
   const navigate = useNavigate();
+
   const [{ loading }, dispatch] = useReducer(reducer, {
     loading: false,
   });
@@ -39,7 +40,6 @@ export default function PlaceOrderScreen() {
   cart.itemsPrice = round2(
     cart.cartItems.reduce((a, c) => a + c.quantity * c.price, 0)
   );
-
   cart.shippingPrice = cart.itemsPrice > 100 ? round2(0) : round2(10);
   cart.taxPrice = round2(0.15 * cart.itemsPrice);
   cart.totalPrice = cart.itemsPrice + cart.shippingPrice + cart.taxPrice;
@@ -69,11 +69,12 @@ export default function PlaceOrderScreen() {
       dispatch({ type: 'CREATE_SUCCESS' });
       localStorage.removeItem('cartItems');
       navigate(`/order/${data.order._id}`);
-    } catch (error) {
+    } catch (err) {
       dispatch({ type: 'CREATE_FAIL' });
-      toast.error(getError(error));
+      toast.error(getError(err));
     }
   };
+
   useEffect(() => {
     if (!cart.paymentMethod) {
       navigate('/payment');

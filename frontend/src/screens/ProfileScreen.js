@@ -5,7 +5,7 @@ import Button from 'react-bootstrap/Button';
 import { Store } from '../Store';
 import { toast } from 'react-toastify';
 import { getError } from '../utils';
-import axios from 'axios';
+import Axios from 'axios';
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -35,8 +35,9 @@ export default function ProfileScreen() {
 
   const submitHandler = async (e) => {
     e.preventDefault();
+    console.log('userInfo:', userInfo);
     try {
-      const { data } = await axios.put(
+      const { data } = await Axios.put(
         '/api/users/profile',
         {
           name,

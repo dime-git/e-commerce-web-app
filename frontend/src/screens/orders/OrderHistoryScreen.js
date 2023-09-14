@@ -2,10 +2,10 @@ import { useContext, useEffect, useReducer } from 'react';
 import { Helmet } from 'react-helmet-async';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import LoadingBox from '../components/LoadingBox';
-import MessageBox from '../components/MessageBox';
-import { Store } from '../Store';
-import { getError } from '../utils';
+import LoadingBox from '../../../src/components/LoadingBox';
+import MessageBox from '../../../src/components/MessageBox';
+import { Store } from '../../Store';
+import { getError } from '../../utils';
 import Button from 'react-bootstrap/esm/Button';
 
 const reducer = (state, action) => {

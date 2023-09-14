@@ -5,14 +5,14 @@ import Col from 'react-bootstrap/esm/Col';
 import Row from 'react-bootstrap/esm/Row';
 import ListGroup from 'react-bootstrap/esm/ListGroup';
 import Card from 'react-bootstrap/esm/Card';
-import Rating from '../components/Rating';
+import Rating from '../../components/Rating';
 import Badge from 'react-bootstrap/esm/Badge';
 import Button from 'react-bootstrap/esm/Button';
 import { Helmet } from 'react-helmet-async';
-import LoadingBox from '../components/LoadingBox';
-import MessageBox from '../components/MessageBox';
-import { getError } from '../utils';
-import { Store } from '../Store';
+import LoadingBox from '../../../src/components/LoadingBox';
+import MessageBox from '../../../src/components/MessageBox';
+import { getError } from '../../utils';
+import { Store } from '../../Store';
 
 const reducer = (state, action) => {
   switch (action.type) {
