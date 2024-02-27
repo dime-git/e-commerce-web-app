@@ -3,11 +3,11 @@ import { useContext, useEffect, useReducer } from 'react';
 import Button from 'react-bootstrap/Button';
 import { Helmet } from 'react-helmet-async';
 import { useNavigate } from 'react-router-dom';
-import LoadingBox from '../../../src/components/LoadingBox';
-import MessageBox from '../../../src/components/MessageBox';
+import { toast } from 'react-toastify';
+import LoadingBox from '../../components/LoadingBox';
+import MessageBox from '../../components/MessageBox';
 import { Store } from '../../Store';
 import { getError } from '../../utils';
-import { toast } from 'react-toastify';
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -33,11 +33,11 @@ const reducer = (state, action) => {
       return { ...state, loadingDelete: false };
     case 'DELETE_RESET':
       return { ...state, loadingDelete: false, successDelete: false };
-
     default:
       return state;
   }
 };
+
 export default function UserListScreen() {
   const navigate = useNavigate();
   const [{ loading, error, users, loadingDelete, successDelete }, dispatch] =
@@ -94,6 +94,7 @@ export default function UserListScreen() {
         <title>Users</title>
       </Helmet>
       <h1>Users</h1>
+
       {loadingDelete && <LoadingBox></LoadingBox>}
       {loading ? (
         <LoadingBox></LoadingBox>

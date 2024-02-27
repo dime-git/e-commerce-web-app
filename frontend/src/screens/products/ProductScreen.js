@@ -27,7 +27,7 @@ const reducer = (state, action) => {
   }
 };
 
-function ProductScreen() {
+export default function ProductScreen() {
   const navigate = useNavigate();
   const params = useParams();
   const { slug } = params;
@@ -136,5 +136,3 @@ function ProductScreen() {
     </div>
   );
 }
-
-export default ProductScreen;

@@ -1,6 +1,6 @@
 import { useEffect, useReducer, useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import Axios from 'axios';
+import axios from 'axios';
 import { toast } from 'react-toastify';
 import { getError } from '../utils';
 import { Helmet } from 'react-helmet-async';
@@ -74,7 +74,7 @@ export const ratings = [
 export default function SearchScreen() {
   const navigate = useNavigate();
   const { search } = useLocation();
-  const sp = new URLSearchParams(search); // /search?category=Shirts
+  const sp = new URLSearchParams(search);
   const category = sp.get('category') || 'all';
   const query = sp.get('query') || 'all';
   const price = sp.get('price') || 'all';
@@ -89,37 +89,16 @@ export default function SearchScreen() {
     });
 
   useEffect(() => {
-    // const fetchData = async () => {
-    //   try {
-    //     const { data } = await Axios.get({
-    //       pathname: '/api/products/search',
-    //       query: { page: page },
-    //       query: { query: query },
-    //       query: { category: category },
-    //       query: { price: price },
-    //       query: { rating: rating },
-    //       query: { order: order },
-    //     });
-    //     dispatch({ type: 'FETCH_SUCCESS', payload: data });
-    //   } catch (err) {
-    //     dispatch({
-    //       type: 'FETCH_FAIL',
-    //       payload: getError(error),
-    //     });
-    //   }
-    // };
     const fetchData = async () => {
       try {
-        const url =
-          `/api/products/search?` +
-          `page=${page}&query=${query}&category=${category}&price=${price}&rating=${rating}&order=${order}`;
-
-        const { data } = await Axios.get(url);
+        const { data } = await axios.get(
+          `/api/products/search?page=${page}&query=${query}&category=${category}&price=${price}&rating=${rating}&order=${order}`
+        );
         dispatch({ type: 'FETCH_SUCCESS', payload: data });
       } catch (err) {
         dispatch({
           type: 'FETCH_FAIL',
-          payload: getError(err),
+          payload: getError(error),
         });
       }
     };
@@ -130,7 +109,7 @@ export default function SearchScreen() {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const { data } = await Axios.get(`/api/products/categories`);
+        const { data } = await axios.get(`/api/products/categories`);
         setCategories(data);
       } catch (err) {
         toast.error(getError(err));
@@ -139,22 +118,17 @@ export default function SearchScreen() {
     fetchCategories();
   }, [dispatch]);
 
-  const getFilterUrl = (filter) => {
+  const getFilterUrl = (filter, skipPathname) => {
     const filterPage = filter.page || page;
     const filterCategory = filter.category || category;
     const filterQuery = filter.query || query;
     const filterRating = filter.rating || rating;
     const filterPrice = filter.price || price;
     const sortOrder = filter.order || order;
-
-    const url = {
-      pathname: '/search',
-      search: `?category=${filterCategory}&query=${filterQuery}&price=${filterPrice}&rating=${filterRating}&order=${sortOrder}&page=${filterPage}`,
-    };
-
-    return url;
+    return `${
+      skipPathname ? '' : '/search?'
+    }category=${filterCategory}&query=${filterQuery}&price=${filterPrice}&rating=${filterRating}&order=${sortOrder}&page=${filterPage}`;
   };
-
   return (
     <div>
       <Helmet>
@@ -292,7 +266,10 @@ export default function SearchScreen() {
                   <LinkContainer
                     key={x + 1}
                     className='mx-1'
-                    to={getFilterUrl({ page: x + 1 })}
+                    to={{
+                      pathname: '/search',
+                      seacrh: getFilterUrl({ page: x + 1 }, true),
+                    }}
                   >
                     <Button
                       className={Number(page) === x + 1 ? 'text-bold' : ''}

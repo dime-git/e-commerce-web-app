@@ -9,16 +9,16 @@ body {
 
 .site-container {
   min-height: 100vh;
-
 }
 
 main {
   flex: 1;
 }
 
-.btn-primary, .btn-outline-primary {
+.btn-primary,
+.btn-outline-primary {
   background-color: #ffcc00;
-  color: black
+  color: black;
 }
 
 .products {
@@ -30,6 +30,14 @@ main {
 .product {
   border: 1px #404040 solid;
   margin: 1rem;
+  padding: 1rem;
+  border-radius: 5px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease-in-out;
+}
+
+.product:hover {
+  transform: scale(1.05);
 }
 
 .rating span {
@@ -74,33 +82,24 @@ main {
 .side-navbar {
   width: 240px;
   height: 100%;
-  position: absolute;
-  left: -300px;
+  position: fixed;
+  left: -240px;
+  top: 0;
   background-color: #100901;
-  transition: 0.5s;
+  transition: left 0.5s ease-in-out;
 }
 
-.site-container {
-  transition: 0.4s;
-}
-
-.active-cont {
-  margin-left: 240px;
-}
-
-.active-nav {
+.site-container.active-cont .side-navbar {
   left: 0;
 }
 
-.navbar-brand {
-  font-weight: bold;
+.site-container.active-cont {
+  margin-left: 240px;
 }
 
 .text-bold {
   font-weight: bold;
 }
-
-/* Map */
 
 .full-box {
   height: 100vh;
@@ -142,4 +141,46 @@ main {
 .map-input-box button {
   border-radius: 0 1rem 1rem 0;
   border-left: 0;
+}
+
+.categories {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+  z-index: 1;
+  padding: 10px;
+}
+
+.nav-item:hover .categories {
+  display: block;
+}
+
+.search-box {
+  margin-top: 20px;
+  display: flex;
+}
+
+.search-input {
+  flex: 1;
+  border: 1px solid #ccc;
+  border-radius: 5px 0 0 5px;
+  padding: 10px;
+}
+
+.search-button {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 0 5px 5px 0;
+  cursor: pointer;
+  padding: 10px 20px;
+  transition: background-color 0.3s ease-in-out;
+}
+
+.search-button:hover {
+  background-color: #0056b3;
 }

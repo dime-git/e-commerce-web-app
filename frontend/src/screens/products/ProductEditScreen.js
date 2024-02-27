@@ -35,7 +35,7 @@ const reducer = (state, action) => {
 };
 export default function ProductEditScreen() {
   const navigate = useNavigate();
-  const params = useParams(); // /product/:id
+  const params = useParams();
   const { id: productId } = params;
 
   const { state } = useContext(Store);
@@ -52,6 +52,8 @@ export default function ProductEditScreen() {
   const [image, setImage] = useState('');
   const [category, setCategory] = useState('');
   const [countInStock, setCountInStock] = useState('');
+  const [rating, setRating] = useState('');
+  const [numReviews, setNumReviews] = useState('');
   const [brand, setBrand] = useState('');
   const [description, setDescription] = useState('');
 
@@ -94,6 +96,8 @@ export default function ProductEditScreen() {
           category,
           brand,
           countInStock,
+          numReviews,
+          rating,
           description,
         },
         {
@@ -212,6 +216,22 @@ export default function ProductEditScreen() {
             <Form.Control
               value={description}
               onChange={(e) => setDescription(e.target.value)}
+              required
+            />
+          </Form.Group>
+          <Form.Group className='mb-3' controlId='rating'>
+            <Form.Label>Rating</Form.Label>
+            <Form.Control
+              value={rating}
+              onChange={(e) => setRating(e.target.value)}
+              required
+            />
+          </Form.Group>
+          <Form.Group className='mb-3' controlId='numReviews'>
+            <Form.Label>Number of reviews</Form.Label>
+            <Form.Control
+              value={numReviews}
+              onChange={(e) => setNumReviews(e.target.value)}
               required
             />
           </Form.Group>

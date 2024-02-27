@@ -12,14 +12,14 @@ import { LinkContainer } from 'react-router-bootstrap';
 import { useContext, useEffect, useState } from 'react';
 import { Store } from './Store';
 import CartScreen from './screens/CartScreen';
-import SigninScreen from './screens/SigninScreen';
+import SigninScreen from './screens/authentication/SigninScreen';
+import SignupScreen from './screens/authentication/SignupScreen';
 import ShippingAddressScreen from './screens/ShippingAddressScreen';
-import SignupScreen from './screens/SignupScreen';
 import PaymentMethodScreen from './screens/PaymentMethodScreen';
 import PlaceOrderScreen from './screens/orders/PlaceOrderScreen';
 import OrderScreen from './screens/orders/OrderScreen';
 import OrderHistoryScreen from './screens/orders/OrderHistoryScreen';
-import ProfileScreen from './screens/ProfileScreen';
+import ProfileScreen from './screens/users/UserProfileScreen';
 import Button from 'react-bootstrap/Button';
 import { getError } from './utils';
 import axios from 'axios';
@@ -32,10 +32,12 @@ import ProductListScreen from './screens/products/ProductListScreen';
 import ProductEditScreen from './screens/products/ProductEditScreen';
 import OrderListScreen from './screens/orders/OrderListScreen';
 import UserListScreen from './screens/users/UserListScreen';
-import UserEditScreen from './screens/users/UserEditScren';
+import UserEditScreen from './screens/users/UserEditScreen';
 import MapScreen from './screens/MapScreen';
+import ForgetPasswordScreen from './screens/passwordManagement/ForgetPasswordScreen';
+import ResetPasswordScreen from './screens/passwordManagement/ResetPasswordScreen';
 
-function App() {
+export default function App() {
   const { fullBox, state, dispatch: ctxDispatch } = useContext(Store);
   const { cart, userInfo } = state;
 
@@ -44,8 +46,10 @@ function App() {
     localStorage.removeItem('userInfo');
     localStorage.removeItem('shippingAddress');
     localStorage.removeItem('paymentMethod');
+    localStorage.removeItem('cartItems');
     window.location.href = '/signin';
   };
+
   const [sidebarIsOpen, setSidebarIsOpen] = useState(false);
   const [categories, setCategories] = useState([]);
 
@@ -60,6 +64,7 @@ function App() {
     };
     fetchCategories();
   }, []);
+
   return (
     <BrowserRouter>
       <div
@@ -79,7 +84,10 @@ function App() {
             <Container>
               <Button
                 variant='dark'
-                onClick={() => setSidebarIsOpen(!sidebarIsOpen)}
+                onClick={() => {
+                  console.log('Sidebar button clicked');
+                  setSidebarIsOpen(!sidebarIsOpen);
+                }}
               >
                 <i className='fas fa-bars'></i>
               </Button>
@@ -177,6 +185,14 @@ function App() {
               <Route path='/signin' element={<SigninScreen />} />
               <Route path='/signup' element={<SignupScreen />} />
               <Route
+                path='/forget-password'
+                element={<ForgetPasswordScreen />}
+              />
+              <Route
+                path='/reset-password/:token'
+                element={<ResetPasswordScreen />}
+              />
+              <Route
                 path='/profile'
                 element={
                   <ProtectedRoute>
@@ -214,7 +230,6 @@ function App() {
                 element={<ShippingAddressScreen />}
               ></Route>
               <Route path='/payment' element={<PaymentMethodScreen />}></Route>
-              {/* Admin Routes */}
               <Route
                 path='/admin/dashboard'
                 element={
@@ -274,5 +289,3 @@ function App() {
     </BrowserRouter>
   );
 }
-
-export default App;

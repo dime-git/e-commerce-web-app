@@ -20,6 +20,7 @@ const initialState = {
       : [],
   },
 };
+
 function reducer(state, action) {
   switch (action.type) {
     case 'SET_FULLBOX_ON':
@@ -28,7 +29,6 @@ function reducer(state, action) {
       return { ...state, fullBox: false };
 
     case 'CART_ADD_ITEM':
-      // add to cart
       const newItem = action.payload;
       const existItem = state.cart.cartItems.find(
         (item) => item._id === newItem._id

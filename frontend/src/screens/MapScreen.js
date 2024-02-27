@@ -96,6 +96,7 @@ export default function MapScreen() {
     toast.success('location selected successfully.');
     navigate('/shipping');
   };
+
   return (
     <div className='full-box'>
       <LoadScript libraries={libs} googleMapsApiKey={googleApiKey}>
