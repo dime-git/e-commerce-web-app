@@ -17,7 +17,7 @@ main {
 
 .btn-primary,
 .btn-outline-primary {
-  background-color: #ffcc00;
+  background-color: darkorange;
   color: black;
 }
 
@@ -40,12 +40,18 @@ main {
   transform: scale(1.05);
 }
 
+.card-img, .card-img-bottom, .card-img-top {
+  width: 100%;
+  height: 150px
+}
+
 .rating span {
-  color: #ffcc00;
+  color: darkorange;
 }
 
 .product img {
   width: 100%;
+  height: 200px;
   max-width: 400px;
 }
 
@@ -55,10 +61,12 @@ main {
 
 .img-large {
   max-width: 100%;
+  width: 100%,
 }
 
 .img-thumbnail {
   height: 80px;
+
 }
 
 .small-container {
@@ -73,6 +81,13 @@ main {
 .checkout-steps>div.active {
   border-bottom-color: #007bff;
   color: #007bff;
+}
+
+.nav {
+  --bs-nav-link-color: darkorange;
+  --bs-nav-link-hover-color:
+  ;
+
 }
 
 .navbar-brand {
