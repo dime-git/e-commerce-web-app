@@ -70,6 +70,8 @@ export default function ProductEditScreen() {
         setCountInStock(data.countInStock);
         setBrand(data.brand);
         setDescription(data.description);
+        setRating(data.rating);
+        setNumReviews(data.numReviews);
         dispatch({ type: 'FETCH_SUCCESS' });
       } catch (err) {
         dispatch({
