@@ -29,8 +29,6 @@ To access the admin panel, navigate to /admin in the application. Admin users ca
 
 Future Improvements
 
-Implement payment gateway integration using PayPal
-
+Implement payment gateway integration 
 Enhance search and filtering functionality
-
 Add analytics and reporting for admins
