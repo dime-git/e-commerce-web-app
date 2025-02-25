@@ -28,7 +28,6 @@ Admin Panel Access
 To access the admin panel, navigate to /admin in the application. Admin users can manage the entire product catalog, view orders, and manage users.
 
 Future Improvements
-
 Implement payment gateway integration 
 Enhance search and filtering functionality
 Add analytics and reporting for admins
